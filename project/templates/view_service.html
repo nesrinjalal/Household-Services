@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+</head>
+<style>
+    main {
+  margin-top: 100px; 
+  
+}
+
+</style>
+<body>
+    <header>
+        <h1>Hello, ADMIN </h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.admin_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.admin_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.admin_summary' )}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+<main>
+<body>
+    <section class="dashboard-section">
+    
+    <table>
+        <h2>Service Details</h2>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Service Name</th>
+            <th>Base Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ service.service_id }}</td>
+            <td>{{ service.service_name }}</td>
+            <td>{{ service.base_price }}</td>
+        </tr>
+        </tbody>
+    </table><br>
+    </section>
+    <br><a href="{{ url_for('main.admin_profile') }}">Back to Admin Dashboard</a>
+</body>
+</html>

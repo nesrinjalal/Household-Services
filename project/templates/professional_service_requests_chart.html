@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <title>Service Requests Summary for Professionals</title>
+    <style>
+        main{
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, Professional</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.professional_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.prof_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.professional_summary' )}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+    <div>
+    <h1>Professional Service Requests Summary</h1>
+    <div style="text-align:center;">
+        <img src="{{ url_for('static', filename='images/professional_service_requests_chart.png') }}" alt="Service Requests Chart">
+    </div>
+    </div>
+    </main>
+</body>
+</html>

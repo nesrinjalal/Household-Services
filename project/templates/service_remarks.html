@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Remarks</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <style>
+        .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hello, Customer</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.customer_profile') }}">Home</a></li>
+                <li><a href="{{ url_for('main.customer_search' )}}">Search</a></li>
+                <li><a href="{{url_for('main.customer_summary')}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <body>
+        <div class="package-container">
+            <h1>Service Remarks for {{ request_obj.service.service_name }}</h1>
+    
+    
+    <table>
+        <tr>
+            <th>Professional</th>
+            <td>{{ request_obj.professional.fullname }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ request_obj.service_status }}</td>
+        </tr>
+        <tr>
+            <th>Rating</th>
+            <td>
+                <form action="{{ url_for('main.service_remarks', request_id=request_obj.id) }}" method="POST">
+                    <label for="rating">Rate the service (1 to 5):</label>
+                    <select name="rating" id="rating" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <button type="submit">Submit Rating</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for service, message in messages %}
+    <div class="flash-popup flash-message {{ service }}">{{ message }}</div>
+    {% endfor %}
+    <script>
+        setTimeout(function () {
+            var flashMessage = document.querySelector('.flash-popup');
+            if (flashMessage) {
+                flashMessage.remove();
+            }
+        }, 5000); // 5 seconds
+    </script>
+    {% endif %}
+    {% endwith %}
+</body>
+</html>

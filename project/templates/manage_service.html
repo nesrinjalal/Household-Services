@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <title>Admin Dashboard</title>
+</head>
+<style>
+     .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+    main{
+        margin-top: 300px;}
+</style>
+<body>
+    <header>
+        <h1>Hello, Admin</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.admin_profile')}}">Home</a></li>
+                <li><a href="{{url_for('main.admin_search')}}"">Search</a></li>
+                <li><a href="{{url_for('main.admin_summary')}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<body>
+    <main >
+        <h1>Manage Services</h1>
+    <div class="manage_service">
+        <div class="create-service">
+            <h2>Create New Service</h2>
+            <form method="POST" action="{{ url_for('main.manage_service') }}">
+                <input class="create_input" type="text" name="create_service" placeholder="Enter Service Name" required>
+                <button type="submit" class="create_button">Create</button>
+            </form>
+        </div>
+
+        <h2>Existing Services</h2>
+        <div class="existing-services">
+            {% if services %}
+            <table >
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Base Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                    <tr>
+                        <td>
+                            <form method="POST" action="{{ url_for('main.manage_service') }}">
+                                <input type="text" name="new_service_name" value="{{ service.service_name }}" required>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('main.manage_service') }}">
+                                <input type="text" name="new_base_price" value="{{ service.base_price }}" required>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('main.manage_service') }}" style="display:inline;">
+                                <input type="hidden" name="service_id" value="{{ service.service_id }}">
+                                <button class="edit_button" name="edit_service" type="submit">Edit</button>
+                            </form>
+
+                            <form method="POST" action="{{ url_for('main.manage_service') }}" style="display:inline;">
+                                <input type="hidden" name="service_id" value="{{ service.service_id }}">
+                                <button class="remove_service" name="remove_service" onclick="showRemove()" type="submit">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No Services found!!</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for service, message in messages %}
+    <div class="flash-popup flash-message {{ service }}">{{ message }}</div>
+    {% endfor %}
+    <script>
+        setTimeout(function () {
+            var flashMessage = document.querySelector('.flash-popup');
+            if (flashMessage) {
+                flashMessage.remove();
+            }
+        }, 5000); // 5 seconds
+    </script>
+    {% endif %}
+    {% endwith %}
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+</head>
+<style>
+     .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+    main {
+        margin-top: 300px; 
+    }
+
+</style>
+<body>
+    <header>
+        <h1>Welcome, Admin</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.admin_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.admin_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.admin_summary' )}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="dashboard-section">
+            <h3>SERVICES</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Service Name</th>
+                        <th>Base Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                    <tr>
+                        <td><a href="{{ url_for('main.view_service', service_id=service.service_id) }}">{{ service.service_id }}</a></td>
+                        <td>{{ service.service_name }}</td>
+                        <td>{{ service.base_price }}</td>
+                        <td><a href="{{ url_for('main.manage_service') }}">Create/Edit/Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ url_for('main.manage_service') }}" class="add-new">+New Service</a>
+        </section>
+
+        <section class="dashboard-section">
+            <h3>PROFESSIONALS</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Experience (Yrs)</th>
+                        <th>Service Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for professional in professionals %}
+                    <tr>
+                        <td><a href="{{ url_for('main.view_professional', professional_id=professional.id) }}">{{ professional.id }}</a></td>
+                        <td>{{ professional.fullname }}</td>
+                        <td>{{ professional.experience }}</td>
+                        <td>{{ professional.service_name }}</td>
+                        <td><a href="{{ url_for('main.manage_professionals') }}">Approve</a>/<a href="{{ url_for('main.manage_professionals') }}">Reject</a>/<a href="{{ url_for('main.manage_professionals') }}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="dashboard-section">
+            <h3>SERVICE REQUESTS</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Assigned Professional</th>
+                        <th>Requested Date</th>
+                        <th>Status (R/A/C)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                    <tr>
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.professional.fullname }}</td>
+                        <td>{{ request.date_of_request }}</td>
+                        <td>{{ request.service_status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for service, message in messages %}
+    <div class="flash-popup flash-message {{ service }}">{{ message }}</div>
+    {% endfor %}
+    <script>
+        setTimeout(function () {
+            var flashMessage = document.querySelector('.flash-popup');
+            if (flashMessage) {
+                flashMessage.remove();
+            }
+        }, 5000); // 5 seconds
+    </script>
+    {% endif %}
+    {% endwith %}
+    </main>
+</body>
+</html>

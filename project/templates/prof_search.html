@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome, Professional</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.professional_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.prof_search' )}}">Search</a></li>
+                <li><a href="{{url_for('main.professional_summary')}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="dashboard-section">
+        <h1>Service Search</h1>
+
+        <form action="{{ url_for('main.prof_search' )}}" method="POST">
+            <input type="text" name="search_query" placeholder="Search Here">
+            <button class="search-button" type="submit"> Search </button>
+        </form>
+    </section>
+    </main>
+    </body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Launch Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: url('/static/images/main-page.png') no-repeat center center;
+      background-size: cover;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .app-logo {
+      width: 80px; 
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 2.4em;
+      color: #ffffff;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); 
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .container {
+      text-align: center;
+      width: 70%;
+      max-width: 500px;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease-in-out;
+    }
+    .container:hover {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+    p {
+      color: #555;
+      font-size: 1.15em;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .button, .button-payment {
+      padding: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .button:hover {
+      transform: scale(1.05);
+      opacity: 0.95;
+    }
+    .login-btn {
+      background-color: #007bff;
+    }
+    .signup-btn {
+      background-color: #28a745;
+    }
+    .signup-btn:hover {
+      background-color: #218838;
+    }
+    .login-btn:hover {
+      background-color: #0056b3;
+    }
+    .ads-text {
+      font-size: 1.1em;
+      color: #444;
+      margin-top: 30px;
+      font-weight: bold;
+    }
+    .button-payment {
+      color: #6c63ff;
+      font-size: 0.9em;
+      background: none;
+      text-decoration: underline;
+      padding: 0;
+      margin-top: 10px;
+    }
+    .button-payment:hover {
+      color: #4834d4;
+    }
+  </style>
+</head>
+<body>
+ 
+  <img src="{{ url_for('static', filename='images/app-logo1.png') }}" alt="App Logo" class="app-logo">
+  <h1>A-Z HOUSEHOLD SERVICES</h1>
+
+ 
+  <div class="container">
+    <p>An all-in-one platform connecting customers with trusted professionals for reliable and convenient household services.</p>
+    
+    <div class="button-container">
+      <a href="/login" class="button login-btn">Login</a>
+      <a href="/customer_signup" class="button signup-btn">Customer Signup</a>
+      <a href="/service_signup" class="button signup-btn">Professional Signup</a>
+    </div>
+  </div>
+    <footer style="position: absolute; bottom: 10px; width: 100%; text-align: center;">
+        <a href="/login_admin" style="color: #ffffff; font-weight: bold; text-decoration: none;">Admin Login</a>
+    </footer>
+</body>
+</html>

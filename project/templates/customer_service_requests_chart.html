@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <title>Service Requests Summary for Customer</title>
+    <style>
+        main{
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, Customer</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.customer_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.customer_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.customer_summary' )}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+    <h1>Customers Service Requests Summary</h1>
+
+    <div style="text-align:center;">
+        <img src="{{ url_for('static', filename='images/customer_service_requests_chart.png') }}" alt="Service Requests Chart">
+    </div>
+    </main>
+</body>
+</html>

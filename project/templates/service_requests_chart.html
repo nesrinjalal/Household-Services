@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <title>Service Requests Summary for Admins</title>
+    <style>
+        main{
+            margin-top: 300px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, Admin</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.admin_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.admin_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.admin_summary' )}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+    <h1>Service Requests Summary</h1>
+
+    <div style="text-align:center;">
+        <img src="{{ url_for('static', filename='images/service_requests_chart.png') }}" alt="Service Requests Chart">
+    </div>
+
+</body>
+</html>

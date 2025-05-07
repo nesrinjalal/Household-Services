@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer/Professional Login</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <style>
+        .flash-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgb(208, 139, 49);
+            color: white;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-popup flash-message {{ messages[-1][0] }}">{{ messages[-1][1]}}</div>
+        <script>
+            setTimeout(function () {
+                var flashMessage = document.querySelector('.flash-popup');
+                if (flashMessage) {
+                    flashMessage.remove();
+                }
+            }, 5000); // 500ms = 0.5sec 5000ms = 5sec
+        </script>
+        {% endif %}
+        {% endwith %}
+
+
+        <form method="POST">
+            
+                <h2 class="title">A-Z Household Services</h2>
+
+                    <label for="Email ID">Registered Email ID:</label>
+                    <input type="email" name="email_id" placeholder="Email"><br>
+
+                    <label for="Password">Password:</label>
+                    <input type="password" name="password" placeholder="Password">
+                    <div class="radio-input">
+                        <label>
+                            <input type="radio" name="role" value="1">Customer
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="2">Professional
+                        </label>
+                    </div>
+                <button class="signin-btn">Login</button>
+            
+                <a href="customer_signup" class="login-link">Create Account?</a>
+               
+                <a href="service_signup" class="login-link">Register as professional</a>
+                
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <style>
+        .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+        main{
+            margin-top: 400px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, Customer</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.customer_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.customer_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.customer_summary')}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <body>
+        <main>
+            <section>
+                <div class="package-container">
+                    <h1>Professionals Offering--{{ service_name }}</h1>
+            
+                    {% if professionals %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Experience (Years)</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Address</th>
+                                    <th>Pincode</th>
+                                    <th>Service Price</th>
+        
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for professional in professionals %}
+                                    <tr>
+                                        <td>{{ professional.fullname }}</td>
+                                        <td>{{ professional.experience }}</td>
+                                        <td>{{ professional.email_id }}</td>
+                                        <td>{{ professional.phone_no }}</td>
+                                        <td>{{ professional.address }}</td>
+                                        <td>{{ professional.pincode}}</td>
+                                        <td>{{ professional.service_price }}</td>
+                                        <td><form action="{{ url_for('main.book_service', professional_id=professional.id, service_name=service_name) }}" method="POST">
+                                            <button type="submit">Book</button>
+                                        </form></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No professionals available for this service at the moment.</p>
+                    {% endif %}
+                </div>
+                </section>
+        <section>
+        <div class="package-container">
+            <h2> Professionals based on rating </h2>
+            {% if requests %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Professional</th>
+                            <th>Phone Number</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in requests %}
+                            <tr>
+                                <td>{{ request.professional.fullname }}</td>
+                                <td>{{ request.professional.phone_no }}</td>
+                                <td>{{ request.rating }}</td>
+                               
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p> No ratings available.</p>
+            {% endif %}
+        </div>
+        </section>
+        <section>
+        <div class="package-container">
+            <h2>Your booked Services</h2>
+            {% if crequests %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Professional</th>
+                            <th>Phone Number</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in crequests %}
+                            <tr>
+                                <td>{{ request.service.service_name }}</td>
+                                <td>{{ request.professional.fullname }}</td>
+                                <td>{{ request.professional.phone_no }}</td>
+                                <td>{{ request.service_status }}</td>
+                                <td>{{ request.action }} </td>
+                                <td>
+                                    {% if request.service_status != 'closed' %}
+                                    <form action="{{ url_for('main.close_request', request_id=request.id) }}" method="POST">
+                                        <button type="submit">Close Request</button>
+                                    </form>
+                                    {% else %}
+                                    <span>Closed</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You have no booked services.</p>
+            {% endif %}
+        </div>
+        </section>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for service, message in messages %}
+    <div class="flash-popup flash-message {{ service }}">{{ message }}</div>
+    {% endfor %}
+    <script>
+        setTimeout(function () {
+            var flashMessage = document.querySelector('.flash-popup');
+            if (flashMessage) {
+                flashMessage.remove();
+            }
+        }, 5000); // 5 seconds
+    </script>
+    {% endif %}
+    {% endwith %}
+        </main>
+</body>
+</html>

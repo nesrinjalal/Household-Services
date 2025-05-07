@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome, Admin</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.admin_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.admin_search' )}}">Search</a></li>
+                <li><a href="{{url_for('main.admin_summary')}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="dashboard-section">
+            {% if requests %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Service Name</th>
+                        <th>Professional Name</th>
+                        <th>Request Status</th>
+                        <th>Date of Request</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                    <tr>
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.service.service_name }}</td>
+                        <td>{{ request.professional.fullname }}</td>
+                        <td>{{ request.service_status }}</td>
+                        <td>{{ request.date_of_request }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>No results found for "{{ search_query }}".</p>
+            {% endif %}
+        </body>
+        </html>

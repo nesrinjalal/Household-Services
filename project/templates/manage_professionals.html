@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <title>Manage Professionals</title>
+</head>
+<style>
+     .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+    main{
+        margin-top:0 px;
+    }
+</style>
+<body>
+    <header>
+        <h1>Hello, Admin</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.admin_profile')}}">Home</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+  
+<main>
+    <section class="dashboard-section">
+        <h2>Manage Professionals</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Service</th>
+                <th>Experience</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for professional in professionals %}
+            <tr>
+                <td>{{ professional.fullname }}</td>
+                <td>{{ professional.email_id }}</td>
+                <td>{{ professional.service_name }}</td>
+                <td>{{ professional.experience }} years</td>
+                <td>{% if professional.active %}
+                        {{ 'Approved '}}
+                    {% elif not professional.active %}
+                        {{ 'Rejected' }}
+                    {% else %} 
+                         {{'Pending' }}
+                    {% endif %}
+
+                </td>
+                <td>
+                    <form method="POST" style="display: inline;" action="{{url_for('main.manage_professionals')}}">
+                        <input type="hidden" name="professional_id" value="{{ professional.id }}">
+
+                       
+                        <button type="submit" name="approve_professional" >
+                            Approve
+                        </button>
+
+                       
+                        <button type="submit" name="reject_professional" >
+                            Reject
+                        </button>
+                    </form>
+
+                   
+                    <form method="POST" style="display: inline;" action="{{url_for('main.manage_professionals')}}">
+                        <input type="hidden" name="professional_id" value="{{ professional.id }}">
+                        <button type="submit" name="delete_professional">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </section>
+    <section>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for service, message in messages %}
+    <div class="flash-popup flash-message {{ service }}">{{ message }}</div>
+    {% endfor %}
+    <script>
+        setTimeout(function () {
+            var flashMessage = document.querySelector('.flash-popup');
+            if (flashMessage) {
+                flashMessage.remove();
+            }
+        }, 5000); // 5 seconds
+    </script>
+    {% endif %}
+    {% endwith %}
+    </section>
+</main>
+</body>
+</html>

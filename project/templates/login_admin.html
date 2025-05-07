@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <style>
+        .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-popup flash-message {{ messages[-1][0] }}">{{ messages[-1][1]}}</div>
+        <script>
+            setTimeout(function () {
+                var flashMessage = document.querySelector('.flash-popup');
+                if (flashMessage) {
+                    flashMessage.remove();
+                }
+            }, 5000); // 500ms = 0.5sec 5000ms = 5sec
+        </script>
+        {% endif %}
+        {% endwith %}
+
+
+        <form method="POST">
+            <div class="signup">
+                <h2 class="title">Admin Login</h2>
+                <div class="text-input">
+                    <input type="email" name="email_id" placeholder="Email ID(username)">
+                </div>
+                <div class="text-input">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <button class="signin-btn">Login</button>
+                <div class="separator"></div>
+                
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

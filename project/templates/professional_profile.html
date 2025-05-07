@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <style>
+         .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+        main{
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, Professional</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.professional_profile') }}">Home</a></li>
+                <li><a href="{{ url_for('main.prof_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.professional_summary') }}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <a href="{{ url_for('main.update_professional_profile') }}" class="login-link">Profile</a><br>
+        <div class="package-container">
+            <h2>Customers with requests today ({{ today }}):</h2>
+
+            {% if requests %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
+                            <th>Pincode</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for request in requests %}
+                        <tr>
+                            <td>{{ request.customer.fullname }}</td> 
+                            <td>{{ request.customer.email_id }}</td>
+                            <td>{{ request.customer.phone_no }}</td>
+                            <td>{{ request.customer.address }}</td>
+                            <td>{{ request.customer.pincode }}</td>
+                            <td>
+                            
+                                <form method="POST" style="display: inline;" action="{{ url_for('main.update_request_status') }}">
+                                    <input type="hidden" name="request_id" value="{{ request.id }}"> 
+                                    <button type="submit" name="accept" value="accept"
+                                        {% if request.action== 'accepted' %}disabled{% endif %}>
+                                        Accept
+                                    </button>
+                                        
+                                    <button type="submit" name="reject" value="reject"
+                                        {% if request.service_status == 'rejected' %}disabled{% endif %}>
+                                        Reject
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No requests made today.</p>
+            {% endif %}
+            <h2>Closed Services</h2>
+            {% if requests %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
+                            <th>Pincode</th>
+                            <th>Date_of_completion</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        {% for request in requests %}
+                            {% if request.service_status == 'closed' %}
+                                <tr>
+                                    <td>{{ request.customer.fullname }}</td> 
+                                    <td>{{ request.customer.email_id }}</td>
+                                    <td>{{ request.customer.phone_no }}</td>
+                                    <td>{{ request.customer.address }}</td>
+                                    <td>{{ request.customer.pincode }}</td>
+                                    <td>{{ request.date_of_completion }}</td>
+                                    <td>{{ request.rating }}</td>
+                        
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No requests made today.</p>
+            {% endif %}
+
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for service, message in messages %}
+        <div class="flash-popup flash-message {{ service }}">{{ message }}</div>
+        {% endfor %}
+        <script>
+            setTimeout(function () {
+                var flashMessage = document.querySelector('.flash-popup');
+                if (flashMessage) {
+                    flashMessage.remove();
+                }
+            }, 5000); // 5 seconds
+        </script>
+        {% endif %}
+        {% endwith %}
+    </main>
+</body>
+</html>

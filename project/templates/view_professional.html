@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+</head>
+<body>
+    <header>
+        <h1>Hello, ADMIN </h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.admin_profile')}}">Home</a></li>
+                <li><a href="{{ url_for('main.admin_search' )}}">Search</a></li>
+                <li><a href="{{ url_for('main.admin_summary' )}}">Summary</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+<body>
+    <main>
+    <h1>Professional Details</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Service Name</th>
+            <th>Experience</th>
+            <th>Documents</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Pincode</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            
+            <td>{{ professional.id }}</td>
+            <td>{{ professional.fullname }}</td>    
+            <td>{{ professional.email_id }}</td>
+            <td>{{ professional.service_name }}</td>
+            <td>{{ professional.experience }} years</td>
+            <td>{{professional.pdf_filename}}</td>
+            <td>{{ professional.address }}</td>
+            <td>{{ professional.phone_no }}</td>
+            <td>{{ professional.pincode }}</td>
+            <td>{{ 'Approved' if professional.active else 'Pending' }}</td>
+        </tr>
+    </table>
+    <a href="{{ url_for('main.admin_profile') }}">Back to Admin Dashboard</a>
+    </main>
+</body>
+</html>

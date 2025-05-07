@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Signup</title>
+    <link rel="stylesheet" href="/static/user_sign.css">
+    <style>
+        .flash-popup {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d08b31;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+       
+    </style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-popup flash-message {{ messages[-1][0] }}">{{ messages[-1][1]}}</div>
+        <script>
+            setTimeout(function () {
+                var flashMessage = document.querySelector('.flash-popup');
+                if (flashMessage){
+                    flashMessage.remove();
+                }
+            },5000); 
+        </script>
+        {% endif %}
+        {% endwith %}
+
+
+        <form method="POST">
+            
+                <h2 class="title">Customer Signup</h2>
+                    <label for="email">Email ID (Username):</label>
+                    <input type="email" id="email" name="email_id" placeholder="Email ID(username)"><br>
+               
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Password"><br>
+                
+                    <label for="password"> Confirm Password</label>
+                    <input type="password" id="password" name="confpwd" placeholder="Confirm Password"<br>
+
+                    <label for="fullname">Fullname:</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Fullname"><br>
+
+                    <label for="Phone_no">Phone Number:</label>
+                    <input type="tel" id="phone_no" name="phone_no" placeholder="Phone Number"><br>
+                
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" placeholder="Address"><br>
+                
+                    <label for="pincode">Pin Code:</label>
+                    <input type="text" id="pincode" name="pincode" placeholder="Pin Code"><br>
+
+               
+                    <button type="submit" class="signin-btn">Register</button><br>
+                
+                    <div class="create">
+                        <a href="login" class="login-link">Login here</a>
+                    </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
